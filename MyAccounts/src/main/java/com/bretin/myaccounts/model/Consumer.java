@@ -2,16 +2,53 @@ package com.bretin.myaccounts.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@Entity
+@Table(name="consumers")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, scope=Consumer.class, property = "id")
 public class Consumer implements java.io.Serializable {
 	
+	@Id
+	@SequenceGenerator(name="seq",sequenceName="seq_consumers")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seq")
+	@Column(name="id")
 	private int id;
+	
+	@Column(name="pseudo")
 	private String pseudo;
+	
+	@Column(name="password")
 	private String password;
+	
+	@Column(name="firstname")
 	private String firstname;
+	
+	@Column(name="name")
 	private String name;
+	
+	@Column(name="mail")
 	private String mail;
+	
+	@Column(name="img")
 	private String img;
+	
+	@Column(name="active")
 	private boolean active;
+	
+	@OneToMany(mappedBy="consumer",fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	private Set<Account> accounts;
 	
 	public Consumer() {
